@@ -21,9 +21,9 @@
 
 		<div class="row">			
 
-			<div class="col-sx-6 .col-md-offset-3" ng-show="tab.pulling"><progressbar class="progress-striped active" max="200" value="200" type="info"><i>Loading the profile of {{tab.name}}</i></progressbar></div>
+			<div class="col-md-6 col-md-offset-3" ng-show="tab.pulling"><progressbar class="progress-striped active" max="200" value="200" type="info"><i>Loading the profile of {{tab.name}}</i></progressbar></div>
 
-			<my-customer> </my-customer>
+			<profile ng-show="!tab.pulling"> </profile>
 
 
 		</div>

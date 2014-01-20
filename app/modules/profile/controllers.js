@@ -3,29 +3,21 @@ angular.module('profileApp', [])
 .controller('profileCtrl', ['$scope', '$http', function ($scope, $http) {
 	
 	$scope.tabs=[];
-
 	
+	//Takes a profile name e.g. "Major Nelson" and will push a Profile object to a new tab in the tabs array
 	$scope.addProfile = function(name){
-		$scope.name= "";
-
-		$scope.removeTab = function (index) {
-   			 $scope.tabs.splice(index, 1);
-		};
-
-		$scope.tabs.push({"name": name, "pulling":true, "profile":{} });
+		$scope.resetForm();
+		$scope.tabs.push({"name": name, "pulling":true});
 
 		$http.get('https://xboxapi.com/profile/'+name).success(function(data) 
-		{
-			
+		{			
 			tempProfile = _.find($scope.tabs, function(data)
 			{
 				return data.name == name; 
 			});
-
-
-			//TODO: find better way of doing this
-			tempProfile.profile = data;
-			tempProfile.pulling = false;
+			
+			angular.extend(tempProfile,{"profile":data, "pulling":false});
+			
 		})
 		.error(function(data)
 		{
@@ -35,16 +27,18 @@ angular.module('profileApp', [])
 		
 	}
 
+	//Removes a tab from the array
+	$scope.removeTab = function (index) {
+		$scope.tabs.splice(index, 1);
+	};
+
+	//resets the profile textbox to empty
 	$scope.resetForm = function()
 	{
 		$scope.name = "";
 	}
 
-	$scope.pushProfile = function(profile)
-	{	
-		$scope.tabs.push(profile);
-	}
-
+	//Retuns an array of tab objects
 	$scope.getTabs = function()
 	{
 		return $scope.tabs;
